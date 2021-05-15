@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <title>Chat</title>
+</head>
+<body>
+    <textarea id='txt' cols='60' rows='1'></textarea><br>
+    <button>Send cock</button>
+    <div id='msgarea'></div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let socket = io.connect();
+    let txt = document.getElementById('txt');
+    let btn = document.querySelector('button');
+    let msgarea = document.querySelector('msgarea');
+    
+    btn.addEventListener('click', (e) => {
+        socket.emit('sendSv', txt.value);
+    });
+
+    socket.on('sendCl', (data) => {
+        let msg = document.createElement('div');
+        msg.innerHTML = `<div>${data.message}</div>`;
+        document.body.insertBefore(msg, msgarea);
+    });
+</script>
+</html>
